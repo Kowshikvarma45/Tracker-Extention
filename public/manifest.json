@@ -1,0 +1,42 @@
+{
+    "manifest_version": 3,
+    "name": "Productivity Tracker",
+    "version": "1.0.0",
+    "description": "Track time spent on websites and analyze productivity",
+    "permissions": [
+      "identity",
+      "identity.email",
+      "activeTab",
+      "storage",
+      "tabs",
+      "background"
+    ],
+    "host_permissions": [
+      "http://*/*",
+      "https://*/*",
+      "https://www.googleapis.com/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "run_at": "document_start"
+      }
+    ],
+    "action": {
+      "default_popup": "index.html",
+      "default_title": "Productivity Tracker"
+    },
+    "icons": {
+      "32":"./img.png"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": ["./index.html"],
+        "matches": ["<all_urls>"]
+      }
+    ]
+  }
