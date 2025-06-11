@@ -14,7 +14,7 @@ interface DashboardProps {
 const COLORS = {
   productive: '#10b981',
   unproductive: '#ef4444',
-  neutral: '#6b7280'
+  neutral: '#3b82f6'
 };
 
 const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
@@ -83,11 +83,27 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
     { name: 'Neutral', value: report.neutralTime, color: COLORS.neutral }
   ].filter(item => item.value > 0);
 
-  const topSitesData = report.topSites.map(site => ({
-    ...site,
-    timeFormatted: formatTime(site.timeSpent),
-    fill: COLORS[site.category as keyof typeof COLORS]
-  }));
+  // Create productivity breakdown data for the new bar chart
+  const productivityBreakdownData = [
+    {
+      category: 'Productive',
+      time: report.productiveTime,
+      timeFormatted: formatTime(report.productiveTime),
+      fill: COLORS.productive
+    },
+    {
+      category: 'Unproductive', 
+      time: report.unproductiveTime,
+      timeFormatted: formatTime(report.unproductiveTime),
+      fill: COLORS.unproductive
+    },
+    {
+      category: 'Neutral',
+      time: report.neutralTime,
+      timeFormatted: formatTime(report.neutralTime),
+      fill: COLORS.neutral
+    }
+  ].filter(item => item.time > 0);
 
   const dailyData = report.dailyBreakdown?.map(day => ({
     date: formatDate(day.date),
@@ -133,9 +149,6 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
           </div>
         </div>
 
-        {/* (Everything else remains exactly the same) */}
-
-
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Total Time</h3>
@@ -180,14 +193,37 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold mb-4">Top Websites</h3>
+            <h3 className="text-lg font-semibold mb-4">Productivity Breakdown</h3>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={topSitesData.slice(0, 8)} layout="horizontal">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" tickFormatter={(value) => formatTime(value)} />
-                <YAxis type="category" dataKey="domain" width={100} />
-                <Tooltip formatter={(value: number) => formatTime(value)} />
-                <Bar dataKey="timeSpent" />
+              <BarChart data={productivityBreakdownData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+                <XAxis 
+                  dataKey="category" 
+                  tick={{ fontSize: 12 }}
+                  tickLine={{ stroke: '#6b7280' }}
+                  axisLine={{ stroke: '#6b7280' }}
+                />
+                <YAxis 
+                  tickFormatter={(value) => formatTime(value)}
+                  tick={{ fontSize: 12 }}
+                  tickLine={{ stroke: '#6b7280' }}
+                  axisLine={{ stroke: '#6b7280' }}
+                />
+                <Tooltip 
+                  formatter={(value: number) => [formatTime(value), 'Time Spent']}
+                  labelStyle={{ color: '#374151' }}
+                  contentStyle={{ 
+                    backgroundColor: '#f9fafb', 
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px'
+                  }}
+                />
+                <Bar 
+                  dataKey="time" 
+                  radius={[4, 4, 0, 0]}
+                  stroke="#ffffff"
+                  strokeWidth={1}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -232,14 +268,14 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
                   <div
                     className={`w-3 h-3 rounded-full ${
                       site.category === 'productive' ? 'bg-green-500' :
-                      site.category === 'unproductive' ? 'bg-red-500' : 'bg-gray-400'
+                      site.category === 'unproductive' ? 'bg-red-500' : 'bg-blue-500'
                     }`}
                   />
                   <span className="font-medium">{site.domain}</span>
                   <span className={`px-2 py-1 text-xs rounded-full ${
                     site.category === 'productive' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
                     site.category === 'unproductive' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
-                    'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                    'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
                   }`}>
                     {site.category}
                   </span>
