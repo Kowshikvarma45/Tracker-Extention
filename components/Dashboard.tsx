@@ -45,7 +45,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
   }, [userId, period]);
 
   useEffect(() => {
-    setIsPopup(window.innerWidth < 400); // adapt to your popup width
+    setIsPopup(window.innerWidth < 400); 
   }, []);
 
   const formatTime = (seconds: number) => {
@@ -83,7 +83,6 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
     { name: 'Neutral', value: report.neutralTime, color: COLORS.neutral }
   ].filter(item => item.value > 0);
 
-  // Create productivity breakdown data for the new bar chart
   const productivityBreakdownData = [
     {
       category: 'Productive',
