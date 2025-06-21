@@ -1,12 +1,12 @@
-## Backend
+# Backend
 - https://github.com/Kowshikvarma45/TrackerBE/tree/main/app/api
 
-## Frontend
+# Frontend
 - Built with Vite, React, and TypeScript
-- ## Important Files
-- # index.html – generated after build and contains the React app logic 
-- # manifest.json – configures permissions and defines extension behavior 
-- # background.js – handles core logic for tracking user activity 
+- # Important Files
+- ## index.html – generated after build and contains the React app logic 
+- ## manifest.json – configures permissions and defines extension behavior 
+- ## background.js – handles core logic for tracking user activity 
 - It includes a detailed dashboard with visual insights using Recharts to display time spent across categories. 
 
 ## How to Run
