@@ -11,8 +11,8 @@
 
 ## How to Run
   How to Run It 
-    1. Start the backend using `npm run dev` 
-    2. Build the frontend using `npm run build` 
-    3. Load the `dist` folder in Chrome → Extensions → Load unpacked 
+    - Start the backend using `npm run dev` 
+    - Build the frontend using `npm run build` 
+    - Load the `dist` folder in Chrome → Extensions → Load unpacked 
     
 Once loaded, the extension will begin tracking and visualizing your browser activity in real-time. 
